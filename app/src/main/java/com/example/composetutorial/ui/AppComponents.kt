@@ -29,7 +29,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -41,6 +44,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composetutorial.R
+import com.example.composetutorial.Utils
 
 @Composable
 fun TopBar(value: String) {
@@ -170,4 +174,36 @@ fun ButtonComponent(
             colorValue = Color.White
         )
     }
+}
+
+@Composable
+fun TextWithShadow(value: String){
+    val shadowOffset = Offset(x = 1f, y = 2f)
+    Text(text = value, fontSize = 24.sp, fontWeight = FontWeight.Light, style = TextStyle(shadow = Shadow(Utils.generateRandomColor(), shadowOffset, 2f)))
+}
+
+@Composable
+fun FactComposable(value: String) {
+    Card(
+        modifier = Modifier
+            .padding(32.dp)
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(8.dp),
+        elevation = CardDefaults.cardElevation(4.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(18.dp, 24.dp)
+        ){
+            Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "Quote Image", modifier = Modifier.rotate(180f))
+            Spacer(modifier = Modifier.size(24.dp))
+            TextWithShadow(value = value)
+            Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "Quote Image")
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FactComposablePreview(){
+    FactComposable(value = "ADCDE")
 }

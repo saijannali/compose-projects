@@ -25,7 +25,7 @@ import com.example.composetutorial.ui.TopBar
 import com.example.composetutorial.ui.UserInputViewModel
 
 @Composable
-fun UserInputScreen(userInputViewModel: UserInputViewModel) {
+fun UserInputScreen(userInputViewModel: UserInputViewModel, showWelcomeScreen: (valuePair: Pair<String, String>) -> Unit) {
     Surface(modifier = Modifier.fillMaxSize()){
         Column(modifier = Modifier
             .fillMaxSize()
@@ -73,6 +73,13 @@ fun UserInputScreen(userInputViewModel: UserInputViewModel) {
                     goToDetailsScreen = {
                         println("====================Coming Here")
                         println("====================${userInputViewModel.uiState.value.nameEntered} and ${userInputViewModel.uiState.value.animalSelected}")
+                        showWelcomeScreen(
+                            Pair(
+                                userInputViewModel.uiState.value.nameEntered,
+                                userInputViewModel.uiState.value.animalSelected
+                            )
+                        )
+
                     }
                 )
             }
@@ -85,5 +92,10 @@ fun UserInputScreen(userInputViewModel: UserInputViewModel) {
 @Preview
 @Composable
 fun UserInputScreenPreview() {
-    UserInputScreen(UserInputViewModel())
+    val showWelcomeScreen: (Pair<String, String>) -> Unit = { valuePair ->
+        println("Welcome Screen Preview: Name = ${valuePair.first}, Animal = ${valuePair.second}")
+    }
+    UserInputScreen(UserInputViewModel(), showWelcomeScreen = showWelcomeScreen)
 }
+
+
